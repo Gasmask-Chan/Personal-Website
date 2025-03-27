@@ -64,8 +64,8 @@
                         <h3>a. Ý tưởng chính</h3>
                         <p>Giả sử ta đang cần phủ đoạn \([l..r]\), hãy hình dung chúng ta bắt đầu tại vị trí \(r\) và sẽ dùng một số tấm ván để di chuyển đến vị trí \(l\). Vì cần phải cực tiểu số tấm ván nên chúng ta sẽ chọn tấm ván sao cho nó có thể giúp chúng ta di chuyển ra xa nhất tính từ vị trí đang đứng.</p>
                         <p>Từ cách hình dung trên ta có ý tưởng cho một thuật toán tham lam như sau:</p>
-                        <p></p>Tính trước mảng \(f[x]\) theo định nghĩa \(f[x] = y \) sao cho tồn tại một tấm ván phủ được hết đoạn \([y + 1..x] \) và \(y\) là nhỏ nhất, nếu không tồn tại vị trí \(y\) thỏa mãn thì \(f[x] = 0 \). Để tính mảng này trong thời gian cho phép thì có nhiều cách chẳng hạn như sử dụng kỹ thuật Sweep Line, dùng CTDL để truy vấn max/min, ...</p>
-                        <p>Giả sử đang cần phủ đoạn \([l..r]\), sử dụng ý tưởng giống cách hình dung trên, ta cũng bắt đầu tại \(r\). Đặt \(j = f[r] \) nếu \(j \geq l \) thì ta sẽ di chuyển tới vị trí \(j\) và tăng biến \(\texttt{ans} \) lên \(1\) (ban đầu \(\texttt{ans} = 0\)). Lặp lại các thao tác trên cho tới khi không thể di chuyển tiếp được nữa (tức \(j < l\)) thì ta có hai trường hợp có thể xảy ra như sau:</p>
+                        <p>Tính trước mảng \(f[x]\) theo định nghĩa: \(f[x] = y \) sao cho tồn tại một tấm ván phủ được hết đoạn \([y + 1..x] \) và \(y\) là nhỏ nhất, nếu không tồn tại vị trí \(y\) thỏa mãn thì \(f[x] = 0 \). Để tính mảng này trong thời gian cho phép thì có nhiều cách chẳng hạn như sử dụng kỹ thuật Sweep Line, dùng CTDL để truy vấn max/min, ...</p>
+                        <p>Giả sử đang cần phủ đoạn \([l..r]\), sử dụng ý tưởng giống cách hình dung trên, ta cũng bắt đầu tại \(r\). Đặt \(j = f[r] \) nếu \(j \geq l \) thì ta sẽ di chuyển tới vị trí \(j\) và tăng biến \(\texttt{ans} \) lên \(1\) (ban đầu \(\texttt{ans} = 0\)). <br>Lặp lại các thao tác trên cho tới khi không thể di chuyển tiếp được nữa (tức \(j < l\)) thì ta có hai trường hợp có thể xảy ra như sau:</p>
                         <ul>
                             <li>Tồn tại một tấm ván bắt đầu tại vị trí \(j + 1\): khi đó đáp án của chúng ta là \(\texttt{ans} + 1 \).</li>
                             <li>Ngược lại: đáp án của chúng ta là \(-1\) do không thể phủ được hết đoạn \([l..r] \).</li>
@@ -81,8 +81,8 @@
                         <p>$$f \underbrace{(f(f(\dots f(r))))}_k$$</p>
                         <p>Chúng ta đã tới được vị trí \(i\) sao cho toàn bộ đoạn \([i + 1..r] \) đều đã được phủ ít nhất một tấm ván. <br>
                         \(\Rightarrow \) Nếu chúng ta lặp hàm này \(\texttt{ans} + 1 \) lần thì chắc chắn đã phủ được hết đoạn \([l..r] \).</p>
-                        <p>Tới đây thuật toán của chúng ta đã có thể tăng tốc bằng kỹ thuật <b>Binary Lifting</b>.<br>
-                        Ta định nghĩa lại mảng \(f\) như sau:</p>
+                        <p>Tới đây thuật toán của chúng ta đã có thể tăng tốc bằng kỹ thuật <b>Binary Lifting</b>. Ta định nghĩa lại mảng \(f\) như sau: </p>
+                        <p>Gọi \(f[j][x] =\) vị trí sẽ tới sau khi lặp hàm \(f(x)\) \(2^j\) lần. Như vậy \(f[j][x] \) sẽ được tính bằng công thức:</p>
                         <p>$$
                             f[j][x] = 
                             \begin{cases}
@@ -90,8 +90,9 @@
                             f[j - 1][f[j - 1][x]], & j > 0 \\
                             \end{cases}
                         $$</p>
-                        <p>Khi \(j = 0\) thì \(f[0][x]\) trở thành mảng \(f[x]\) mà ta đã định nghĩa trước đó. <br>
-                        Để tính đáp án ta chỉ cần "nhảy" trên mảng \(f\) và xét các trường hợp. Độ phức tạp \(O(L \log L + q \log L) \) bao gồm chi phí tính mảng \(f\) và tính các truy vấn, không tính chi phí tính \(f[0][x]\).</p>
+                        <p>Khi \(j = 0\) thì \(f[0][x]\) trở thành mảng \(f[x]\) mà ta đã định nghĩa trước đó. </p>
+                        <p>Để tính đáp án ta chỉ cần "nhảy" trên mảng \(f\) và xét các trường hợp. </p>
+                        <p>Độ phức tạp: \(O(L \log L + q \log L) \) bao gồm chi phí tính mảng \(f\) và tính các truy vấn, không tính chi phí tính \(f[0][x]\).</p>
                         <p><b>Code mẫu tham khảo:</b></p>
                         
                         <div class="code-container">
