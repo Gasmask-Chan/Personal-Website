@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="vi">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Gasmask's Kitchen</title>
+        <link rel="stylesheet" href="../../../styles.css">
+
+        <!-- font -->
+        <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+        <!-- mathjax for latex typing -->
+        <script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js">
+        </script>
+
+        <!-- highlight.js for code syntax... -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/styles/github-dark.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.11.1/highlight.min.js"></script>
+    </head>
+
+    <body>
+        <nav class="nav-bar">
+            <ul>
+                <li><a href="../../../index.html" class="nav-link">HOME</a></li>
+                <li><a href="../../../kitchen.html" class="nav-link">KITCHEN</a></li>
+            </ul>
+        </nav>
+
+        <div class="sol-container">
+            <header>
+                <h1><a target="_blank" href="https://marisaoj.com/problem/309">MarisaOJ - Leaky roof</a></h1>
+                <hr>
+            </header>
+
+            <main style="font-size: 20px">
+                <h2>Mục lục</h2>
+                <ol>
+                    <li><a href="#statement">Tóm tắt đề bài</a></li>
+                    <li><a href="#solution">Lời giải</a></li>
+                    <ol type="a">
+                        <li><a href="#solution-a">Ý tưởng chính</a></li>
+                        <li><a href="#solution-b">Cải tiến thuật toán</a></li>
+                    </ol>
+                </ol>
+
+                <section id="statement">
+                    <h2>1. Tóm tắt đề bài</h2>
+                    <p>Marisa có \(n\) tấm ván, tấm ván thứ \(i\) có thể che từ vị trí \(x_i\) đến vị trí \(y_i\) của mái nhà có kích thước \(L\).</p>
+                    <p>Có \(q\) ngày mưa, vào ngày mưa thứ \(i\) thì mái nhà dột từ vị trí \(l_i\) đến vị trí \(r_i\). Với mỗi ngày bạn hãy giúp Marisa xác định số lượng ít nhất tấm ván cần dùng để che mái nhà hoặc in ra \(-1\) nếu không thể che hết được. Lưu ý rằng có thể chồng các tấm ván lên nhau và vào cuối ngày Marisa sẽ gỡ hết những tấm ván đã dùng để dùng tiếp vào ngày hôm sau.</p>
+                    <p><b>Giới hạn: </b></p>
+                    <ul>
+                        <li>\(1 \leq n,q,L \leq 10^5 \).</li>
+                        <li>\(1 \leq x_i \leq y_i \leq L, \) với \( 1 \leq i \leq n \).</li>
+                        <li>\(1 \leq l_i \leq r_i \leq L, \) với \( 1 \leq i \leq q \).</li>
+                    </ul>
+                </section>
+
+                <section id="solution">
+                    <h2>2. Lời giải</h2>
+                    <section id="solution-a">
+                        <h3>a. Ý tưởng chính</h3>
+                        <p>Giả sử ta đang cần phủ đoạn \([l..r]\), hãy hình dung chúng ta bắt đầu tại vị trí \(r\) và sẽ dùng một số tấm ván để di chuyển đến vị trí \(l\). Vì cần phải cực tiểu số tấm ván nên chúng ta sẽ chọn tấm ván sao cho nó có thể giúp chúng ta di chuyển ra xa nhất tính từ vị trí đang đứng.</p>
+                        <p>Từ cách hình dung trên ta có ý tưởng cho một thuật toán tham lam như sau:</p>
+                        <p></p>Tính trước mảng \(f[x]\) theo định nghĩa \(f[x] = y \) sao cho tồn tại một tấm ván phủ được hết đoạn \([y + 1..x] \) và \(y\) là nhỏ nhất, nếu không tồn tại vị trí \(y\) thỏa mãn thì \(f[x] = 0 \). Để tính mảng này trong thời gian cho phép thì có nhiều cách chẳng hạn như sử dụng kỹ thuật Sweep Line, dùng CTDL để truy vấn max/min, ...</p>
+                        <p>Giả sử đang cần phủ đoạn \([l..r]\), sử dụng ý tưởng giống cách hình dung trên, ta cũng bắt đầu tại \(r\). Đặt \(j = f[r] \) nếu \(j \geq l \) thì ta sẽ di chuyển tới vị trí \(j\) và tăng biến \(\texttt{ans} \) lên \(1\) (ban đầu \(\texttt{ans} = 0\)). Lặp lại các thao tác trên cho tới khi không thể di chuyển tiếp được nữa (tức \(j < l\)) thì ta có hai trường hợp có thể xảy ra như sau:</p>
+                        <ul>
+                            <li>Tồn tại một tấm ván bắt đầu tại vị trí \(j + 1\): khi đó đáp án của chúng ta là \(\texttt{ans} + 1 \).</li>
+                            <li>Ngược lại: đáp án của chúng ta là \(-1\) do không thể phủ được hết đoạn \([l..r] \).</li>
+                        </ul>
+                        <p>Sở dĩ chúng ta cần xét hai trường hợp trên là vì mỗi lần di chuyển từ vị trí \(i\) đến vị trí \(j\) thì đồng nghĩa với việc chúng ta đã đặt một tấm ván phủ đoạn \([j + 1..i]\), điều này dẫn đến việc kể cả sau một vài thao tác và chúng ta kết thúc ở vị trí \(l\) thì chúng ta vẫn chưa thực sự phủ được hết đoạn \([l..r] \). Do đó ta mới cần phải xét riêng trường hợp này để đặt tấm ván cuối cùng.</p>
+                    </section>
+
+                    <section id="solution-b">
+                        <h3>b. Cải tiến thuật toán</h3>
+                        <p>Với cách làm ở trên thì ta đã có một thuật toán với độ phức tạp thời gian cho mỗi truy vấn là \(O(n) \), tổng quát lại là \(O(n \cdot q) \) không tính chi phí tính mảng \(f\). Rõ ràng là không khả thi với giới hạn của đề bài đưa ra.</p>
+                        <p>Chìa khóa để chúng ta tăng tốc thuật toán đó là thông qua một nhận xét quan trọng như sau:</p>
+                        <p>Nếu coi mảng \(f\) như là một hàm số thì \(\texttt{ans} + 1 \) <b>của chúng ta chính là số lần lặp hàm \(f(r) \)</b>, tổng quát hơn, giả sử luôn tồn tại ít nhất một cách để phủ hết đoạn \([1..r] \) thì sau \(k\) lần lặp hàm \(f(r)\): </p>
+                        <p>$$f \underbrace{(f(f(\dots f(r))))}_k$$</p>
+                        <p>Chúng ta đã tới được vị trí \(i\) sao cho toàn bộ đoạn \([i + 1..r] \) đều đã được phủ ít nhất một tấm ván. <br>
+                        \(\Rightarrow \) Nếu chúng ta lặp hàm này \(\texttt{ans} + 1 \) lần thì chắc chắn đã phủ được hết đoạn \([l..r] \).</p>
+                        <p>Tới đây thuật toán của chúng ta đã có thể tăng tốc bằng kỹ thuật <b>Binary Lifting</b>.<br>
+                        Ta định nghĩa lại mảng \(f\) như sau:</p>
+                        <p>$$
+                            f[j][x] = 
+                            \begin{cases}
+                            y, & j = 0 \\
+                            f[j - 1][f[j - 1][x]], & j > 0 \\
+                            \end{cases}
+                        $$</p>
+                        <p>Khi \(j = 0\) thì \(f[0][x]\) trở thành mảng \(f[x]\) mà ta đã định nghĩa trước đó. <br>
+                        Để tính đáp án ta chỉ cần "nhảy" trên mảng \(f\) và xét các trường hợp. Độ phức tạp \(O(L \log L + q \log L) \) bao gồm chi phí tính mảng \(f\) và tính các truy vấn, không tính chi phí tính \(f[0][x]\).</p>
+                        <p><b>Code mẫu tham khảo:</b></p>
+                        
+                        <div class="code-container">
+                            <button class="copy-btn">Copy</button>
+                            <pre class="code-display"><code id="code-block" class="cpp"></code></pre>
+                        </div>
+
+                        <script>
+                            fetch("code.cpp")
+                                .then(response => response.text())
+                                .then(data => {
+                                    document.getElementById("code-block").textContent = data;
+                                    hljs.highlightAll();
+                                });
+
+                                document.querySelector(".copy-btn").addEventListener("click", function () {
+                                    const code = document.getElementById("code-block").innerText;
+                                    navigator.clipboard.writeText(code).then(() => {
+                                    this.innerText = "Copied!";
+                                    setTimeout(() => (this.innerText = "Copy"), 2000);
+                                    });
+                                });
+                        </script>
+
+                    </section>
+                </section>
+            </main>
+        </div>
+    </body>
+</html>
