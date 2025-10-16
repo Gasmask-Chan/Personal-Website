@@ -67,3 +67,7 @@ main {
         font-size: 19px; 
     }
 }
+
+.novel-context p {
+    text-indent: 2em;
+}
