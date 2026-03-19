@@ -8,10 +8,12 @@
         <!-- Bootstrap -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
+        <script src='script.js' defer></script>
     </head>
 
     <body>
         <div class="container">
+
             <nav class="navbar navbar-expand-sm border border-top-0 border-black rounded rounded-bottom-0">
                 <a class="navbar-brand ms-3" href="index.html">Bathroom</a>
                 <button class="navbar-toggler me-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -25,13 +27,51 @@
                         <li class="nav-item">
                             <a class="nav-link" href="kitchen.html">KITCHEN</a>
                         </li>
+
+                        <!-- Mobile only -->
+                        <li class="nav-item d-sm-none d-flex justify-content-center">
+                            <div class="themeToggle" id="themeToggle" title="Change Theme">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                width="22"
+                                height="22"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round">
+
+                                <path d="M21 12.79A9 9 0 1 1 11.21 3 
+                                        7 7 0 0 0 21 12.79z"></path>
+                                </svg>
+                            </div>
+                        </li>
                     </ul>
+                    
+                    <!-- Desktop only -->
+                    <div id="themeToggleDesktop" class="ms-sm-auto d-none d-sm-flex align-items-center me-3">
+                        <div class="themeToggle" id="themeToggle" title="Change Theme">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                            width="22"
+                            height="22"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round">
+
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 
+                                    7 7 0 0 0 21 12.79z"></path>
+                            </svg>
+                        </div>
+                    </div>
                 </div>
             </nav>
 
-            <div class="container-fluid bg-white shadow-lg p-5 mb-5 bg-body-tertiary rounded rounded-top-0">
+            <div class="container-fluid custom-container shadow-lg p-5 mb-5 rounded rounded-top-0">
                 <header id="menu-header">
-                    <p style="text-align: right;">Last update: 10/23/2025</p>
+                    <p class="last-update">Last update: 03/15/2026</p>
                     <h1>WELCOME TO GASMASK'S PERSONAL PAGE!!</h1>
                 </header>
                 
